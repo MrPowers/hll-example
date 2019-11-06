@@ -37,9 +37,11 @@ class DoEverythingSpec extends FunSpec with SparkSessionTestWrapper with DataFra
 
   it("incrementally updates a HLL sketch") {
 
-    val tmpDir = new java.io.File("./tmp").getCanonicalPath
-    NioUtils.removeAll(tmpDir)
+    val tmpDirFile = new java.io.File("./tmp")
+    if(!tmpDirFile.exists()) tmpDirFile.mkdir()
+    val tmpDir = tmpDirFile.getCanonicalPath
 
+    NioUtils.removeAll(tmpDir)
     val path1 = new java.io.File("./src/test/resources/users1.csv").getCanonicalPath
 
     val df1 = spark
