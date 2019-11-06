@@ -37,9 +37,11 @@ class DoEverythingSpec extends FunSpec with SparkSessionTestWrapper with DataFra
 
   it("incrementally updates a HLL sketch") {
 
-    val tmpDir = new java.io.File("./tmp").getCanonicalPath
-    NioUtils.removeAll(tmpDir)
+    val tmpDirFile = new java.io.File("./tmp")
+    if(!tmpDirFile.exists()) tmpDirFile.mkdir()
+    val tmpDir = tmpDirFile.getCanonicalPath
 
+    NioUtils.removeAll(tmpDir)
     val path1 = new java.io.File("./src/test/resources/users1.csv").getCanonicalPath
 
     val df1 = spark
@@ -116,8 +118,7 @@ class DoEverythingSpec extends FunSpec with SparkSessionTestWrapper with DataFra
 
     val adults = df
       .where(col("age") >= 18)
-      .withColumn("user_id_hll", hll_init("user_id"))
-      .select(hll_merge("user_id_hll").as("user_id_hll"))
+      .select(hll_init_agg("user_id").as("user_id_hll"))
 
     val adultsDF = adults
       .select(hll_cardinality("user_id_hll"))
@@ -134,8 +135,7 @@ class DoEverythingSpec extends FunSpec with SparkSessionTestWrapper with DataFra
 
     val favoriteGameSmash = df
       .where(col("favorite_game") === "smash")
-      .withColumn("user_id_hll", hll_init("user_id"))
-      .select(hll_merge("user_id_hll").as("user_id_hll"))
+      .select(hll_init_agg("user_id").as("user_id_hll"))
 
     val favoriteGameSmashDF = favoriteGameSmash
       .select(hll_cardinality("user_id_hll"))
