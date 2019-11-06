@@ -195,6 +195,8 @@ class DoEverythingSpec extends FunSpec with SparkSessionTestWrapper with DataFra
       )
     )
 
+    assertSmallDataFrameEquality(count1, expectedCount1)
+
     // number of children that like smash
     val count2 = resDF
       .where(!col("is_adult") && col("favorite_game") === "smash")
@@ -207,6 +209,8 @@ class DoEverythingSpec extends FunSpec with SparkSessionTestWrapper with DataFra
         ("hll_cardinality(user_id_hll)", LongType, true)
       )
     )
+
+    assertSmallDataFrameEquality(count2, expectedCount2)
 
   }
 
