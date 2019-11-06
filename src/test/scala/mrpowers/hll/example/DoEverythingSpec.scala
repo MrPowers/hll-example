@@ -118,8 +118,7 @@ class DoEverythingSpec extends FunSpec with SparkSessionTestWrapper with DataFra
 
     val adults = df
       .where(col("age") >= 18)
-      .withColumn("user_id_hll", hll_init("user_id"))
-      .select(hll_merge("user_id_hll").as("user_id_hll"))
+      .select(hll_init_agg("user_id").as("user_id_hll"))
 
     val adultsDF = adults
       .select(hll_cardinality("user_id_hll"))
@@ -136,8 +135,7 @@ class DoEverythingSpec extends FunSpec with SparkSessionTestWrapper with DataFra
 
     val favoriteGameSmash = df
       .where(col("favorite_game") === "smash")
-      .withColumn("user_id_hll", hll_init("user_id"))
-      .select(hll_merge("user_id_hll").as("user_id_hll"))
+      .select(hll_init_agg("user_id").as("user_id_hll"))
 
     val favoriteGameSmashDF = favoriteGameSmash
       .select(hll_cardinality("user_id_hll"))
