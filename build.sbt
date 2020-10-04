@@ -1,4 +1,4 @@
-resolvers += "Spark Packages Repo" at "http://dl.bintray.com/spark-packages/maven"
+//resolvers += "Spark Packages Repo" at "http://dl.bintray.com/spark-packages/maven"
 resolvers += Resolver.bintrayRepo("swoop-inc", "maven")
 
 name := "hll-example"
@@ -11,9 +11,12 @@ libraryDependencies += "com.swoop" %% "spark-alchemy" % "0.5.5"
 
 libraryDependencies += "org.apache.spark" %% "spark-sql" % "2.4.4" % "provided"
 
-libraryDependencies += "mrpowers" % "spark-daria" % "0.35.2-s_2.11"
+//libraryDependencies += "mrpowers" % "spark-daria" % "0.35.2-s_2.11"
 
-libraryDependencies += "MrPowers" % "spark-fast-tests" % "0.20.0-s_2.11" % "test"
+libraryDependencies += "com.github.mrpowers" %% "spark-daria" % "0.38.0"
+libraryDependencies += "com.github.mrpowers" %% "spark-fast-tests" % "0.21.2" % "test"
+
+//libraryDependencies += "MrPowers" % "spark-fast-tests" % "0.20.0-s_2.11" % "test"
 libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.1" % "test"
 
 // test suite settings
